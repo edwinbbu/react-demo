@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { FormControl, FormGroup, Form, Col, ControlLabel } from 'react-bootstrap';
+import { FormControl, FormGroup, Form, Col, ControlLabel, Button } from 'react-bootstrap';
 import './App.css';
 
 class App extends Component {
   constructor(props, context) {
     super(props, context);
+
     this.calculateTotal = this.calculateTotal.bind(this);
+    this.addItem = this.addItem.bind(this);
     this.state = {
       monday: {
         hours: 0, minutes: 0
@@ -22,16 +24,26 @@ class App extends Component {
       friday: {
         hours: 0, minutes: 0
       },
-      total: 0
+      total: 0,
+      checkedItems: new Set()
     };
   }
 
-  calculateTotal() {
-
-    let hours = this.state.monday.hours;
-    this.setState({ total: hours });
+  calculateTotal(hours, day) {
+    console.log("inside calculate");
+    console.log("day:", day);
+    let total = this.state.total - this.state[day].hours + hours;
+    let minutes = this.state[day].minutes
+    console.log(this.state.checkedItems.size);
+    this.addItem(day);
+    console.log(this.state.checkedItems.size);
+    this.setState({ [day]: { hours, minutes }, total: total})
   }
-
+  addItem(item) {
+    this.setState(({ checkedItems }) => ({
+      checkedItems: new Set(checkedItems.add(item))
+    }));
+  }
   render() {
     console.log(this.state);
     return (
@@ -50,9 +62,7 @@ class App extends Component {
                   onChange={(e) => {
                     if (e.target.value !== '') {
                       let hours = parseInt(e.target.value, 10);
-                      let total = this.state.total - this.state.monday.hours + hours;
-                      let minutes = this.state.monday.minutes
-                      this.setState({ monday: { hours, minutes },total: total })
+                      this.calculateTotal(hours, 'monday');
                     }
                   }}
                 />
@@ -76,9 +86,7 @@ class App extends Component {
                   onChange={(e) => {
                     if (e.target.value !== '') {
                       let hours = parseInt(e.target.value, 10);
-                      let total = this.state.total - this.state.tuesday.hours + hours;
-                      let minutes = this.state.tuesday.minutes
-                      this.setState({ tuesday: { hours, minutes },total: total })
+                      this.calculateTotal(hours, 'tuesday');
                     }
                   }}
                 />
@@ -102,9 +110,7 @@ class App extends Component {
                   onChange={(e) => {
                     if (e.target.value !== '') {
                       let hours = parseInt(e.target.value, 10);
-                      let total = this.state.total - this.state.wednesday.hours + hours;
-                      let minutes = this.state.wednesday.minutes
-                      this.setState({ wednesday: { hours, minutes },total: total })
+                      this.calculateTotal(hours, 'wednesday');
                     }
                   }}
                 />
@@ -128,9 +134,7 @@ class App extends Component {
                   onChange={(e) => {
                     if (e.target.value !== '') {
                       let hours = parseInt(e.target.value, 10);
-                      let total = this.state.total - this.state.thursday.hours + hours;
-                      let minutes = this.state.thursday.minutes
-                      this.setState({ thursday: { hours, minutes },total: total })
+                      this.calculateTotal(hours, 'thursday');
                     }
                   }}
                 />
@@ -154,9 +158,7 @@ class App extends Component {
                   onChange={(e) => {
                     if (e.target.value !== '') {
                       let hours = parseInt(e.target.value, 10);
-                      let total = this.state.total - this.state.friday.hours + hours;
-                      let minutes = this.state.friday.minutes
-                      this.setState({ friday: { hours, minutes },total: total })
+                      this.calculateTotal(hours, 'friday');
                     }
                   }}
                 />
@@ -169,6 +171,11 @@ class App extends Component {
                 />
               </Col>
             </FormGroup>
+            <FormGroup>
+              <Col smOffset={2} sm={10}>
+                <Button >Calculate</Button>
+              </Col>
+            </FormGroup>
           </Form>
           <hr></hr>
           <DisplayDetails total={this.state.total} />
@@ -179,8 +186,15 @@ class App extends Component {
 }
 
 function DisplayDetails(props) {
-  return (
-    <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
-  )
+  if(props.total!==0)
+  {
+    return (
+      <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
+    )
+  }
+  else{
+    return <div/>
+  }
+  
 }
 export default App;
