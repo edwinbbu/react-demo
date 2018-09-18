@@ -48,9 +48,12 @@ class App extends Component {
                   type="number"
                   placeholder="Enter hours"
                   onChange={(e) => {
-                    let hours = parseInt(e.target.value, 10);
-                    let total = this.state.total + hours;
-                    this.setState({ monday: { hours }, total: total })
+                    if (e.target.value !== '') {
+                      let hours = parseInt(e.target.value, 10);
+                      let total = this.state.total - this.state.monday.hours + hours;
+                      let minutes = this.state.monday.minutes
+                      this.setState({ monday: { hours, minutes },total: total })
+                    }
                   }}
                 />
               </Col>
@@ -70,7 +73,14 @@ class App extends Component {
                 <FormControl
                   type="number"
                   placeholder="Enter hours"
-                  onChange={(e) => this.handleChange(e, "tuesday")}
+                  onChange={(e) => {
+                    if (e.target.value !== '') {
+                      let hours = parseInt(e.target.value, 10);
+                      let total = this.state.total - this.state.tuesday.hours + hours;
+                      let minutes = this.state.tuesday.minutes
+                      this.setState({ tuesday: { hours, minutes },total: total })
+                    }
+                  }}
                 />
               </Col>
               <Col sm={2}>
@@ -89,7 +99,14 @@ class App extends Component {
                 <FormControl
                   type="number"
                   placeholder="Enter hours"
-                  onChange={(e) => this.handleChange(e, "wednesday")}
+                  onChange={(e) => {
+                    if (e.target.value !== '') {
+                      let hours = parseInt(e.target.value, 10);
+                      let total = this.state.total - this.state.wednesday.hours + hours;
+                      let minutes = this.state.wednesday.minutes
+                      this.setState({ wednesday: { hours, minutes },total: total })
+                    }
+                  }}
                 />
               </Col>
               <Col sm={2}>
@@ -108,7 +125,14 @@ class App extends Component {
                 <FormControl
                   type="number"
                   placeholder="Enter hours"
-                  onChange={(e) => this.handleChange(e, "thursday")}
+                  onChange={(e) => {
+                    if (e.target.value !== '') {
+                      let hours = parseInt(e.target.value, 10);
+                      let total = this.state.total - this.state.thursday.hours + hours;
+                      let minutes = this.state.thursday.minutes
+                      this.setState({ thursday: { hours, minutes },total: total })
+                    }
+                  }}
                 />
               </Col>
               <Col sm={2}>
@@ -127,7 +151,14 @@ class App extends Component {
                 <FormControl
                   type="number"
                   placeholder="Enter hours"
-                  onChange={(e) => this.handleChange(e, "friday")}
+                  onChange={(e) => {
+                    if (e.target.value !== '') {
+                      let hours = parseInt(e.target.value, 10);
+                      let total = this.state.total - this.state.friday.hours + hours;
+                      let minutes = this.state.friday.minutes
+                      this.setState({ friday: { hours, minutes },total: total })
+                    }
+                  }}
                 />
               </Col>
               <Col sm={2}>
