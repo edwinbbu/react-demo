@@ -5,36 +5,35 @@ import './App.css';
 class App extends Component {
   constructor(props, context) {
     super(props, context);
-
-    this.handleChange = this.handleChange.bind(this);
-
+    this.calculateTotal = this.calculateTotal.bind(this);
     this.state = {
       monday: {
-        hours: null, minutes: null
+        hours: 0, minutes: 0
       },
       tuesday: {
-        hours: null, minutes: null
+        hours: 0, minutes: 0
       },
       wednesday: {
-        hours: null, minutes: null
+        hours: 0, minutes: 0
       },
       thursday: {
-        hours: null, minutes: null
+        hours: 0, minutes: 0
       },
       friday: {
-        hours: null, minutes: null
+        hours: 0, minutes: 0
       },
       total: 0
     };
   }
 
-  handleChange(e) {
+  calculateTotal() {
 
-    let hours = this.state.total + parseInt(e.target.value, 10);
+    let hours = this.state.monday.hours;
     this.setState({ total: hours });
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <h2 style={{ marginLeft: '250px', padding: '10px!important' }}>TruTime Calculator</h2>
@@ -47,17 +46,19 @@ class App extends Component {
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.monday.hours}
                   placeholder="Enter hours"
-                  onChange={this.handleChange}
+                  onChange={(e) => {
+                    let hours = parseInt(e.target.value, 10);
+                    let total = this.state.total + hours;
+                    this.setState({ monday: { hours }, total: total })
+                  }}
                 />
               </Col>
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.monday.minutes}
                   placeholder="Enter minutes"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "monday")}
                 />
               </Col>
             </FormGroup>
@@ -68,17 +69,15 @@ class App extends Component {
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.tuesday.hours}
                   placeholder="Enter hours"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "tuesday")}
                 />
               </Col>
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.tuesday.minutes}
                   placeholder="Enter minutes"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "tuesday")}
                 />
               </Col>
             </FormGroup>
@@ -89,17 +88,15 @@ class App extends Component {
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.wednesday.hours}
                   placeholder="Enter hours"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "wednesday")}
                 />
               </Col>
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.wednesday.minutes}
                   placeholder="Enter minutes"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "wednesday")}
                 />
               </Col>
             </FormGroup>
@@ -110,17 +107,15 @@ class App extends Component {
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.thursday.hours}
                   placeholder="Enter hours"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "thursday")}
                 />
               </Col>
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.thursday.minutes}
                   placeholder="Enter minutes"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "thursday")}
                 />
               </Col>
             </FormGroup>
@@ -131,17 +126,15 @@ class App extends Component {
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.friday.hours}
                   placeholder="Enter hours"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "friday")}
                 />
               </Col>
               <Col sm={2}>
                 <FormControl
                   type="number"
-                  value={this.state.friday.minutes}
                   placeholder="Enter minutes"
-                  onChange={this.handleChange}
+                  onChange={(e) => this.handleChange(e, "friday")}
                 />
               </Col>
             </FormGroup>
