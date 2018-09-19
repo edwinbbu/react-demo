@@ -25,7 +25,9 @@ class App extends Component {
         hours: 0, minutes: 0
       },
       total: 0,
-      checkedItems: new Set()
+      checkedItems: new Set(),
+      average: 0,
+      size: 0
     };
   }
 
@@ -34,18 +36,30 @@ class App extends Component {
     console.log("day:", day);
     let total = this.state.total - this.state[day].hours + hours;
     let minutes = this.state[day].minutes
-    console.log(this.state.checkedItems.size);
     this.addItem(day);
-    console.log(this.state.checkedItems.size);
-    this.setState({ [day]: { hours, minutes }, total: total})
+    this.setState({ [day]: { hours, minutes }, total: total })
   }
   addItem(item) {
     this.setState(({ checkedItems }) => ({
       checkedItems: new Set(checkedItems.add(item))
-    }));
+    }), () => {
+      console.log("callback:", this.state.checkedItems.size);
+      this.getPendingHours(this.state.checkedItems.size)
+    });
+    //console.log("intermediate:",this.state);
+  }
+  getPendingHours(size) {
+    if (size === 5) {
+      let average = (this.state.total) / (5);
+      this.setState({ average, size });
+    }
+    else {
+      let average = (45 - this.state.total) / (5 - size);
+      this.setState({ average, size });
+    }
   }
   render() {
-    console.log(this.state);
+    console.log("current State:", this.state);
     return (
       <div>
         <h2 style={{ marginLeft: '250px', padding: '10px!important' }}>TruTime Calculator</h2>
@@ -178,7 +192,7 @@ class App extends Component {
             </FormGroup>
           </Form>
           <hr></hr>
-          <DisplayDetails total={this.state.total} />
+          <DisplayDetails total={this.state.total} average={this.state.average} size={this.state.size}/>
         </div>
       </div>
     );
@@ -186,15 +200,25 @@ class App extends Component {
 }
 
 function DisplayDetails(props) {
-  if(props.total!==0)
-  {
+  if(props.size===5){
     return (
-      <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
+      <div>
+        <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
+        <h3 style={{ marginLeft: '200px' }}>You have an average of {props.average} hours this week </h3>
+      </div>
     )
   }
-  else{
-    return <div/>
+  if (props.total !== 0 && props.average !== 0) {
+    return (
+      <div>
+        <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
+        <h3 style={{ marginLeft: '200px' }}>You have to remain for {props.average} hours daily </h3>
+      </div>
+    )
   }
-  
+  else {
+    return <div />
+  }
+
 }
 export default App;
