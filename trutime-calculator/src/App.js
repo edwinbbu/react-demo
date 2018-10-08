@@ -25,25 +25,40 @@ class App extends Component {
         hours: 0, minutes: 0
       },
       total: 0,
+      totMinutes: 0,
       checkedItems: new Set(),
       average: 0,
       size: 0
     };
   }
 
-  calculateTotal(hours, day) {
+  calculateTotal(day,hours,minutes) {
     console.log("inside calculate");
     console.log("day:", day);
+    console.log("hours:",hours);
+    console.log("minutes:",minutes);
+
     let total = this.state.total - this.state[day].hours + hours;
-    let minutes = this.state[day].minutes
     this.addItem(day);
-    this.setState({ [day]: { hours, minutes }, total: total })
+    
+    if(minutes){
+      let totMinutes = this.state.totMinutes - this.state[day].minutes + minutes;
+      if(totMinutes>=60){
+        total=total+parseInt(totMinutes/60,10);
+        totMinutes=totMinutes%60;
+      }
+      this.setState({ [day]: { hours, minutes }, total: total, totMinutes: totMinutes});
+    }
+    else{
+      minutes=0;
+      this.setState({ [day]: { hours, minutes }, total: total });
+    }
+    
   }
   addItem(item) {
     this.setState(({ checkedItems }) => ({
       checkedItems: new Set(checkedItems.add(item))
     }), () => {
-      console.log("callback:", this.state.checkedItems.size);
       this.getPendingHours(this.state.checkedItems.size)
     });
     //console.log("intermediate:",this.state);
@@ -75,17 +90,12 @@ class App extends Component {
                   placeholder="Enter hours"
                   onChange={(e) => {
                     if (e.target.value !== '') {
-                      let hours = parseInt(e.target.value, 10);
-                      this.calculateTotal(hours, 'monday');
+                      let values=e.target.value.split('.');
+                      let hours=parseInt(values[0],10);
+                      let min=parseInt(values[1],10);
+                      this.calculateTotal('monday',hours,min);
                     }
                   }}
-                />
-              </Col>
-              <Col sm={2}>
-                <FormControl
-                  type="number"
-                  placeholder="Enter minutes"
-                  onChange={(e) => this.handleChange(e, "monday")}
                 />
               </Col>
             </FormGroup>
@@ -99,17 +109,12 @@ class App extends Component {
                   placeholder="Enter hours"
                   onChange={(e) => {
                     if (e.target.value !== '') {
-                      let hours = parseInt(e.target.value, 10);
-                      this.calculateTotal(hours, 'tuesday');
+                      let values=e.target.value.split('.');
+                      let hours=parseInt(values[0],10);
+                      let min=parseInt(values[1],10);
+                      this.calculateTotal('tuesday',hours,min);
                     }
                   }}
-                />
-              </Col>
-              <Col sm={2}>
-                <FormControl
-                  type="number"
-                  placeholder="Enter minutes"
-                  onChange={(e) => this.handleChange(e, "tuesday")}
                 />
               </Col>
             </FormGroup>
@@ -123,17 +128,12 @@ class App extends Component {
                   placeholder="Enter hours"
                   onChange={(e) => {
                     if (e.target.value !== '') {
-                      let hours = parseInt(e.target.value, 10);
-                      this.calculateTotal(hours, 'wednesday');
+                      let values=e.target.value.split('.');
+                      let hours=parseInt(values[0],10);
+                      let min=parseInt(values[1],10);
+                      this.calculateTotal('wednesday',hours,min);
                     }
                   }}
-                />
-              </Col>
-              <Col sm={2}>
-                <FormControl
-                  type="number"
-                  placeholder="Enter minutes"
-                  onChange={(e) => this.handleChange(e, "wednesday")}
                 />
               </Col>
             </FormGroup>
@@ -147,17 +147,12 @@ class App extends Component {
                   placeholder="Enter hours"
                   onChange={(e) => {
                     if (e.target.value !== '') {
-                      let hours = parseInt(e.target.value, 10);
-                      this.calculateTotal(hours, 'thursday');
+                      let values=e.target.value.split('.');
+                      let hours=parseInt(values[0],10);
+                      let min=parseInt(values[1],10);
+                      this.calculateTotal('thursday',hours,min);
                     }
                   }}
-                />
-              </Col>
-              <Col sm={2}>
-                <FormControl
-                  type="number"
-                  placeholder="Enter minutes"
-                  onChange={(e) => this.handleChange(e, "thursday")}
                 />
               </Col>
             </FormGroup>
@@ -171,17 +166,12 @@ class App extends Component {
                   placeholder="Enter hours"
                   onChange={(e) => {
                     if (e.target.value !== '') {
-                      let hours = parseInt(e.target.value, 10);
-                      this.calculateTotal(hours, 'friday');
+                      let values=e.target.value.split('.');
+                      let hours=parseInt(values[0],10);
+                      let min=parseInt(values[1],10);
+                      this.calculateTotal('friday',hours,min);
                     }
                   }}
-                />
-              </Col>
-              <Col sm={2}>
-                <FormControl
-                  type="number"
-                  placeholder="Enter minutes"
-                  onChange={(e) => this.handleChange(e, "friday")}
                 />
               </Col>
             </FormGroup>
@@ -192,7 +182,7 @@ class App extends Component {
             </FormGroup>
           </Form>
           <hr></hr>
-          <DisplayDetails total={this.state.total} average={this.state.average} size={this.state.size}/>
+          <DisplayDetails total={this.state.total} totMinutes={this.state.totMinutes} average={this.state.average} size={this.state.size}/>
         </div>
       </div>
     );
@@ -200,19 +190,22 @@ class App extends Component {
 }
 
 function DisplayDetails(props) {
+  let average=props.average;
+  average=parseFloat(average).toFixed(2);
+  console.log("average:",average);
   if(props.size===5){
     return (
       <div>
-        <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
-        <h3 style={{ marginLeft: '200px' }}>You have an average of {props.average} hours this week </h3>
+        <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours and {props.totMinutes} minutes</h3>
+        <h3 style={{ marginLeft: '200px' }}>You have an average of {average} hours this week </h3>
       </div>
     )
   }
   if (props.total !== 0 && props.average !== 0) {
     return (
       <div>
-        <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours</h3>
-        <h3 style={{ marginLeft: '200px' }}>You have to remain for {props.average} hours daily </h3>
+        <h3 style={{ marginLeft: '200px' }}>You have total of {props.total} hours and {props.totMinutes} minutes</h3>
+        <h3 style={{ marginLeft: '200px' }}>You have to remain for {average} hours daily </h3>
       </div>
     )
   }
