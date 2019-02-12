@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { FormControl, FormGroup, Form, Col, ControlLabel, Button } from "react-bootstrap";
-import "./App.css";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 class App extends Component {
   constructor(props) {
