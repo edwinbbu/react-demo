@@ -9,7 +9,7 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="App">
+        <div className="container" style={{ marginTop: "20px" }}>
           <AddTodo />
           <DisplayTodo />
         </div>

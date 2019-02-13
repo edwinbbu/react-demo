@@ -1,4 +1,4 @@
-import { ADD_NOTE, GET_NOTES } from "./types";
+import { ADD_NOTE } from "./types";
 
 export const addNote = note => dispatch => {
   dispatch({
@@ -7,8 +7,10 @@ export const addNote = note => dispatch => {
   });
 };
 
-export const getNotes = () => dispatch => {
-  dispatch({
-    type: GET_NOTES
+export const getNotes = () => subscribe => {
+  subscribe(() => {
+    let notes = this.props.store.getState();
+    console.log("Display1:", notes);
+    return notes;
   });
 };

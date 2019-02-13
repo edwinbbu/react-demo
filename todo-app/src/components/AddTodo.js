@@ -7,14 +7,16 @@ import { addNote } from "../actions/notesAction";
 class AddTodo extends Component {
   handleSubmit = e => {
     e.preventDefault();
-    let note = document.getElementById("note").value;
+    let element = document.getElementById("note");
+    let note = element.value;
     console.log("note:", note);
     this.props.addNote(note);
+    element.value = "";
   };
 
   render() {
     return (
-      <div className="container" style={{ marginTop: "20px" }}>
+      <div>
         <h2>Todo</h2>
         <Form onSubmit={this.handleSubmit}>
           <Row>
