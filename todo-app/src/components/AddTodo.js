@@ -1,21 +1,15 @@
 import React, { Component } from "react";
 import { Form, Row, Col, Button } from "react-bootstrap";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { addNote } from "../actions/notesAction";
 
-export default class AddTodo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      note: null
-    };
-  }
-
+class AddTodo extends Component {
   handleSubmit = e => {
     e.preventDefault();
-    console.log("state:", this.state);
-  };
-
-  handleChange = e => {
-    this.setState({ note: e.target.value });
+    let note = document.getElementById("note").value;
+    console.log("note:", note);
+    this.props.addNote(note);
   };
 
   render() {
@@ -25,7 +19,7 @@ export default class AddTodo extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Row>
             <Col>
-              <Form.Control placeholder="Enter Note" onChange={this.handleChange} />
+              <Form.Control id="note" placeholder="Enter Note" />
             </Col>
             <Col>
               <Button variant="primary" type="submit">
@@ -38,3 +32,19 @@ export default class AddTodo extends Component {
     );
   }
 }
+
+AddTodo.propTypes = {
+  addNote: PropTypes.func.isRequired,
+  notes: PropTypes.array.isRequired
+};
+
+const mapStateToProps = state => {
+  return {
+    notes: state.notes
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { addNote }
+)(AddTodo);
