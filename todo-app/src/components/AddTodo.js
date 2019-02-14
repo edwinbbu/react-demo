@@ -21,7 +21,7 @@ class AddTodo extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Row>
             <Col>
-              <Form.Control id="note" placeholder="Enter Note" />
+              <Form.Control id="note" placeholder="Enter Note" autoComplete="off" />
             </Col>
             <Col>
               <Button variant="primary" type="submit">

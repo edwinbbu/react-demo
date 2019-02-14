@@ -1,24 +1,23 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { getNotes } from "../actions/notesAction";
 
 class DisplayTodo extends Component {
-  componentDidMount() {
-    let notes = this.props.getNotes;
-    console.log("Disp:", notes);
-  }
   render() {
+    var list = this.props.notes;
+    var notes = list.map(function(note, i) {
+      return <li key={i}>{note}</li>;
+    });
     return (
       <div style={{ marginTop: "20px" }}>
         <h3>List</h3>
+        <ul>{notes}</ul>
       </div>
     );
   }
 }
 
 DisplayTodo.propTypes = {
-  getNotes: PropTypes.func.isRequired,
   notes: PropTypes.array.isRequired
 };
 
@@ -28,7 +27,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  { getNotes }
-)(DisplayTodo);
+export default connect(mapStateToProps)(DisplayTodo);

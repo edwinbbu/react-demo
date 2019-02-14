@@ -6,11 +6,3 @@ export const addNote = note => dispatch => {
     payload: note
   });
 };
-
-export const getNotes = () => subscribe => {
-  subscribe(() => {
-    let notes = this.props.store.getState();
-    console.log("Display1:", notes);
-    return notes;
-  });
-};
