@@ -6,7 +6,11 @@ class DisplayTodo extends Component {
   render() {
     var list = this.props.notes;
     var notes = list.map(function(note, i) {
-      return <li key={i}>{note}</li>;
+      return (
+        <li style={{ fontSize: "18px" }} key={i}>
+          {note}
+        </li>
+      );
     });
     return (
       <div style={{ marginTop: "20px" }}>

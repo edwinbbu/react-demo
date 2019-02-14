@@ -10,7 +10,7 @@ class AddTodo extends Component {
     let element = document.getElementById("note");
     let note = element.value;
     console.log("note:", note);
-    this.props.addNote(note);
+    if (note !== "") this.props.addNote(note);
     element.value = "";
   };
 
