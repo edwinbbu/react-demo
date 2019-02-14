@@ -1,8 +1,15 @@
-import { ADD_NOTE } from "./types";
+import { ADD_NOTE, TOOGLE_NOTE } from "./types";
 
-export const addNote = note => dispatch => {
+export const addNote = item => dispatch => {
   dispatch({
     type: ADD_NOTE,
-    payload: note
+    payload: item
+  });
+};
+
+export const toogleNote = id => dispatch => {
+  dispatch({
+    type: TOOGLE_NOTE,
+    id: id
   });
 };

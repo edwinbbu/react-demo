@@ -10,7 +10,13 @@ class AddTodo extends Component {
     let element = document.getElementById("note");
     let note = element.value;
     console.log("note:", note);
-    if (note !== "") this.props.addNote(note);
+    if (note !== "") {
+      let item = {
+        note,
+        completed: false
+      };
+      this.props.addNote(item);
+    }
     element.value = "";
   };
 
@@ -21,11 +27,11 @@ class AddTodo extends Component {
         <Form onSubmit={this.handleSubmit}>
           <Row>
             <Col>
-              <Form.Control id="note" placeholder="Enter Note" autoComplete="off" />
+              <Form.Control id="note" placeholder="Enter Todo" autoComplete="off" />
             </Col>
             <Col>
               <Button variant="primary" type="submit">
-                Add Todo
+                Add
               </Button>
             </Col>
           </Row>
