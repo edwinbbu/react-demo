@@ -1,9 +1,11 @@
 import { ADD_NOTE, TOOGLE_NOTE } from "./types";
-
-export const addNote = item => dispatch => {
+let nextId = 0;
+export const addNote = (item, completed) => dispatch => {
   dispatch({
     type: ADD_NOTE,
-    payload: item
+    id: nextId++,
+    item,
+    completed
   });
 };
 

@@ -6,17 +6,21 @@ import { toogleNote } from "../actions/notesAction";
 class DisplayTodo extends Component {
   handleClick = id => {
     console.log("completed:", id);
-    // this.props.toogleNote(id);
+    this.props.toogleNote(id);
   };
   render() {
     var list = this.props.notes;
     var notes = list.map((item, i) => {
       return (
-        <li style={{ fontSize: "18px" }} key={i} onClick={this.handleClick(i)}>
+        <li
+          style={{ fontSize: "18px", textDecoration: item.completed ? "line-through" : "none" }}
+          key={i}
+          onClick={() => this.handleClick(i)}
+        >
           {item.note}
         </li>
       );
-    });
+    }, this);
     return (
       <div style={{ marginTop: "20px" }}>
         <h3>List</h3>

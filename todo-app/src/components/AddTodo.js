@@ -11,11 +11,7 @@ class AddTodo extends Component {
     let note = element.value;
     console.log("note:", note);
     if (note !== "") {
-      let item = {
-        note,
-        completed: false
-      };
-      this.props.addNote(item);
+      this.props.addNote(note, false);
     }
     element.value = "";
   };
