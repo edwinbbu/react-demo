@@ -1,3 +1,3 @@
 export const ADD_NOTE = "ADD_NOTE";
-export const GET_NOTES = "GET_NOTES";
 export const TOOGLE_NOTE = "TOOGLE_NOTE";
+export const SET_FILTER = "SET_FILTER";
