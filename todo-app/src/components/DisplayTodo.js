@@ -8,8 +8,21 @@ class DisplayTodo extends Component {
     console.log("completed:", id);
     this.props.toogleNote(id);
   };
+
+  checkFilter = note => {
+    let type = this.props.filter;
+    if (type === "pending") return note.completed === false;
+    else return note.completed === true;
+  };
+
+  filterList = list => {
+    let type = this.props.filter;
+    if (type === "all") return list;
+    else return list.filter(this.checkFilter);
+  };
+
   render() {
-    let list = this.props.notes;
+    let list = this.filterList(this.props.notes);
     let notes = list.map((item, i) => {
       return (
         <li
@@ -22,6 +35,12 @@ class DisplayTodo extends Component {
       );
     }, this);
     let displayComponent = <p>No Todo Created</p>;
+    if (list.length === 0 && this.props.filter === "pending") {
+      displayComponent = <p>No Todo Pending</p>;
+    }
+    if (list.length === 0 && this.props.filter === "completed") {
+      displayComponent = <p>No Todo Completed</p>;
+    }
     if (list.length > 0) {
       displayComponent = <ul>{notes}</ul>;
     }
@@ -41,7 +60,8 @@ DisplayTodo.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    notes: state.notes
+    notes: state.notes,
+    filter: state.filter
   };
 };
 

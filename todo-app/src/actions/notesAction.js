@@ -1,4 +1,5 @@
 import { ADD_NOTE, TOOGLE_NOTE } from "./types";
+
 let nextId = 0;
 export const addNote = (item, completed) => dispatch => {
   dispatch({
