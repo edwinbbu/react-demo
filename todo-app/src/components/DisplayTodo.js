@@ -9,8 +9,8 @@ class DisplayTodo extends Component {
     this.props.toogleNote(id);
   };
   render() {
-    var list = this.props.notes;
-    var notes = list.map((item, i) => {
+    let list = this.props.notes;
+    let notes = list.map((item, i) => {
       return (
         <li
           style={{ fontSize: "18px", textDecoration: item.completed ? "line-through" : "none" }}
@@ -21,10 +21,14 @@ class DisplayTodo extends Component {
         </li>
       );
     }, this);
+    let displayComponent = <p>No Todo Created</p>;
+    if (list.length > 0) {
+      displayComponent = <ul>{notes}</ul>;
+    }
     return (
       <div style={{ marginTop: "20px" }}>
         <h3>List</h3>
-        <ul>{notes}</ul>
+        {displayComponent}
       </div>
     );
   }
